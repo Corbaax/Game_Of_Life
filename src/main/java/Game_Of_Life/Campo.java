@@ -76,4 +76,18 @@ public class Campo {
     private int column(){
         return this.matrix[0].length;
     }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < row(); i++) {
+            for (int j = 0; j < column(); j++) {
+                sb.append(
+                        this.matrix[i][j] == Alive ? "0 " : ". "
+                );
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 }
