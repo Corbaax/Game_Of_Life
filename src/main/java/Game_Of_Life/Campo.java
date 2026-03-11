@@ -37,6 +37,7 @@ public class Campo {
                 // rule apply
                 newMatrix[i][j] = matrix[i][j];
                 if(kernelCount < RULE_0_MINUM_CELL) newMatrix[i][j]=Dead;
+                if(kernelCount > 3) newMatrix[i][j]=Dead;
             }
         }
         this.matrix = newMatrix;
