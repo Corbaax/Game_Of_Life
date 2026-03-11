@@ -3,9 +3,12 @@ package Game_Of_Life;
 import static Game_Of_Life.Status.*;
 
 public class Campo {
-    public static final int KERNEL_SIZE = 3;
-    public static final int KERNEL_OFFSET = 1;
-    public static final int RULE_0_MINUM_CELL = 2;
+    private static final int KERNEL_SIZE = 3;
+    private static final int KERNEL_OFFSET = 1;
+    public static final int LIMITE_ISOLAMENTO = 2;
+    public static final int LIMITE_SOVRAPPOPOLAZIONE = 3;
+    public static final int VALORE_RIPRODUZIONE = 3;
+
     private Status[][] matrix;
 
     public Campo(int row, int column) {
@@ -36,9 +39,9 @@ public class Campo {
                 int kernelCount = getKernelCount(i, j);
                 // rule apply
                 newMatrix[i][j] = matrix[i][j];
-                if(kernelCount < RULE_0_MINUM_CELL) newMatrix[i][j]=Dead;
-                if(kernelCount > 3) newMatrix[i][j]=Dead;
-                if(kernelCount == 3) newMatrix[i][j]=Alive;
+                if(kernelCount < LIMITE_ISOLAMENTO) newMatrix[i][j]=Dead;
+                if(kernelCount > LIMITE_SOVRAPPOPOLAZIONE) newMatrix[i][j]=Dead;
+                if(kernelCount == VALORE_RIPRODUZIONE) newMatrix[i][j]=Alive;
             }
         }
         this.matrix = newMatrix;
