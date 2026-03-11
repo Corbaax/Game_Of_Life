@@ -68,7 +68,7 @@ public class CampoTest {
         c.makeLife(0,0);
         c.makeLife(0,1);
         c.makeLife(1,0);
-        c.makeLife(0,1);
+        c.makeLife(1,1);
         c.makeLife(2,1);
 
         c.tick();
