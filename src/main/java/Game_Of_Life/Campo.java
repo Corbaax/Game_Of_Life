@@ -3,6 +3,9 @@ package Game_Of_Life;
 import static Game_Of_Life.Status.*;
 
 public class Campo {
+    public static final int KERNEL_SIZE = 3;
+    public static final int KERNEL_OFFSET = 1;
+    public static final int RULE_0_MINUM_CELL = 2;
     private Status[][] matrix;
 
     public Campo(int row, int column) {
@@ -27,24 +30,39 @@ public class Campo {
     public void tick() {
         Status[][] newMatrix = new Status[row()][column()];
 
-        // Rule 0
         for (int i = 0; i < row(); i++) {
             for (int j = 0; j < column(); j++) {
                 // Count Kernel
-                int kernelCount = 0;
-                for (int k = 0; k < 3; k++) {
-                    for (int l = 0; l < 3; l++) {
-                        if(k == l && l == 1) continue; // center
-                        if(this.cellAt(i+k-1, j+l-1) == Alive) kernelCount++;
-                    }
-                }
+                int kernelCount = getKernelCount(i, j);
                 // rule apply
                 newMatrix[i][j] = matrix[i][j];
-                if(kernelCount < 2) newMatrix[i][j]=Dead;
+                if(kernelCount < RULE_0_MINUM_CELL) newMatrix[i][j]=Dead;
             }
         }
         this.matrix = newMatrix;
 
+    }
+
+    private int getKernelCount(int coreRow, int coreColumn) {
+        int kernelCount = 0;
+        for (int k = 0; k < KERNEL_SIZE; k++) {
+            for (int l = 0; l < KERNEL_SIZE; l++) {
+                if(isKernelCore(k, l)) continue; // center
+                if(isKernelCellAlive(coreRow, coreColumn, k, l)) kernelCount++;
+            }
+        }
+        return kernelCount;
+    }
+
+    private boolean isKernelCellAlive(int coreRow, int coreColumn, int kernelRow, int kernelColumn) {
+        return this.cellAt(
+                coreRow + kernelRow - KERNEL_OFFSET,
+                coreColumn + kernelColumn - KERNEL_OFFSET
+        ) == Alive;
+    }
+
+    private static boolean isKernelCore(int k, int l) {
+        return k == l && l == KERNEL_SIZE - KERNEL_OFFSET - 1;
     }
 
     private int row(){
